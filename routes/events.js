@@ -5,8 +5,7 @@ var Server = mongo.Server,
     BSON = require('bson').BSONPure;
 
 const util = require('util');
-
-var server = new Server('10.10.30.253', 27017, {auto_reconnect: true});
+var server = new Server('192.168.1.61', 27017, {auto_reconnect: true});
 db = new Db('visualization', server);
 
 db.open(function(err, db) {
@@ -17,6 +16,8 @@ db.open(function(err, db) {
                 console.log("The 'actionmetrics' collection doesn't exist.");
             }
         });
+    }else{
+        console.log("Cannot connect to db");
     }
 });
 
