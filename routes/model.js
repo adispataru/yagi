@@ -66,4 +66,5 @@ exports.findLastCM = function(req, res) {
             res.send(items[l - 1]);
         });
     });
+    res.send(null);
 };

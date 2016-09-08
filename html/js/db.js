@@ -58,7 +58,14 @@
     var props = {};
     play.onclick = function(e){
       $.getJSON( "http://localhost:3000/model/last/CM", function( data ) {
+          if(!data){
+              console.log("No Cell Manager found.");
+              document.getElementById("statusSpan").className = "glyphicon glyphicon-alert";
+              document.getElementById("statusText").innerText = "No Cell Manager found.";
+              return;
+          }
           var cellId = data.id;
+          document.getElementById("spanStatus").className = "glyphicon glyphicon-ok";
           if(sys)
             sys.stop();
           sys = arbor.ParticleSystem(1600, 510, 0.5) // create the system with sensible repulsion/stiffness/friction
