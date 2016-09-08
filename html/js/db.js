@@ -15,7 +15,7 @@
     $.ajax({
         type:"GET",
         async:true, // set async false to wait for previous response
-        url: "http://localhost:3000/model/" + id,
+        url: "/model/" + id,
         dataType:"json",
         success: function(datas)
         {
@@ -57,7 +57,7 @@
     var layout = {};
     var props = {};
     play.onclick = function(e){
-      $.getJSON( "http://localhost:3000/model/last/CM", function( data ) {
+      $.getJSON( "/model/last/CM", function( data ) {
           if(!data){
               console.log("No Cell Manager found.");
               document.getElementById("statusSpan").className = "glyphicon glyphicon-alert";
