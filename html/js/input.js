@@ -161,10 +161,10 @@
         //Retrieve the first (and only!) File from the FileList object
         if(sys)
           sys.stop();
-        sys = arbor.ParticleSystem(2600, 510, 0.5) // create the system with sensible repulsion/stiffness/friction
-        sys.parameters({gravity:true, fps:30}) // use center-gravity to make the graph settle nicely (ymmv)
-        sys.renderer = Renderer("#canvasView") // our newly created renderer will have its .init() method called shortly by sys...
-        sys.screenPadding(100);
+        sys = arbor.ParticleSystem(500, 100, 0.5); // create the system with sensible repulsion/stiffness/friction
+        sys.parameters({gravity:true, fps:30}); // use center-gravity to make the graph settle nicely (ymmv)
+        sys.renderer = Renderer("#canvasView"); // our newly created renderer will have its .init() method called shortly by sys...
+        sys.screenPadding(10);
 
         var f = evt.target.files[0];
 
@@ -177,6 +177,8 @@
             sys.addNode("CM", {label:"CellManager", shape:"dot", color:"green"})
             var minTime = 5000;
             var maxTime = 0;
+            var prevTime = 0;
+            var step = 0;
             var lines = contents.split("\n");
             lines.forEach(function(item, index){
               if(item == "")
@@ -186,6 +188,10 @@
 
                 edge = item.split(",");
                 var time = parseInt(edge[0]);
+                if(step == 0){
+                  if(time != prevTime)
+                    step = time - prevTime;
+                }
                 if(time < minTime)
                   minTime = time;
                 if(time > maxTime)
@@ -207,6 +213,7 @@
                       props["size"] = edge[3];
                     }else{
                       props["label"] = edge[2];
+                        props["size"] = edge[3];
                     }
                     sys.addNode(nodename, props);
                     sys.addEdge(edge[1], nodename);
@@ -214,7 +221,7 @@
                 // sys.addEdge(edge[1], edge[0]);
 
             });
-            $('#metricSlider').slider({min:minTime, max:maxTime, tooltip: 'show', step:300, value:minTime})
+            $('#metricSlider').slider({min:minTime, max:maxTime, tooltip: 'show', step:step, value:minTime})
             .on('slide', function(ev){
               var mvalue = ev.value;
 
@@ -230,10 +237,18 @@
                 }
                 node = sys.getNode(nodename);
                 if(!node){
-                  sys.addNode(nodename, props);
-                  sys.addEdge(entry['parent'], nodename);
+                    parent = sys.getNode(entry['parent']);
+                    xSign = Math.random() < 0.5 ? -1 : 1;
+                    ySign = Math.random() < 0.5 ? -1 : 1;
+                    props["x"] = parent.p.x + Math.floor((Math.random() * 10) + 1) % 3;
+                    // props["x"] = props["x"] * xSign;
+                    props["y"] = parent.p.y + Math.floor((Math.random() * 10) + 1) % 3;
+                    // props["y"] = props["y"] * ySign;
+                    theNode = sys.addNode(nodename, props);
+                    sys.addEdge(entry['parent'], nodename);
+
                 }else{
-                  sys.tweenNode(node, 0.01, props);
+                    sys.tweenNode(node, 0.01, props);
                 }
               }
 

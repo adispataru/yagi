@@ -29,12 +29,12 @@
 
           // determine the box size and round off the coords if we'll be
           // drawing a text label (awful alignment jitter otherwise...)
-          var label = node.data.label||""
-          var size = node.data.size||1
-          var w = ctx.measureText(""+label).width + 10
-          w = w + Math.sqrt(size)
-          if(w > 100)
-            w = 100
+          var label = node.data.label||"";
+          var size = node.data.size||1;
+          var w = ctx.measureText(""+label).width + 10;
+          w = w + size*2/10;//Math.sqrt(size);
+          if(w > 120)
+            w = 120;
           if (!(""+label).match(/^[ \t]*$/)){
             pt.x = Math.floor(pt.x)
             pt.y = Math.floor(pt.y)
@@ -56,9 +56,11 @@
 
           // draw the text
           if (label){
-            ctx.font = "16px Helvetica"
-            ctx.textAlign = "center"
-            ctx.fillStyle = "white"
+            ctx.font = "13px Helvetica";
+            if(label == "v")
+              ctx.font = "10px Helvetica";
+            ctx.textAlign = "center";
+            ctx.fillStyle = "white";
             if(node.data.color){
                 ctx.fillStyle = "#000033"
             }
