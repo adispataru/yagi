@@ -14,7 +14,7 @@ db.open(function(err, db) {
         console.log("Connected to 'visualization' database");
         db.collection('clmodel', function(err, collection) {
             if (err) {
-                console.log("The 'actionmetrics' collection doesn't exist.");
+                console.log("The 'clmodel' collection doesn't exist.");
             }
         });
     }else {
@@ -24,7 +24,7 @@ db.open(function(err, db) {
 
 exports.findById = function(req, res) {
     var id = req.params.id;
-    console.log('Retrieving event: ' + id);
+    console.log('Retrieving component: ' + id);
     db.collection('clmodel', function(err, collection) {
       if(!err){
         collection.find({'id':id}).toArray(function(err, items) {
@@ -38,7 +38,7 @@ exports.findById = function(req, res) {
 
 exports.findByRole = function(req, res) {
     var role = req.params.role;
-    console.log('Retrieving events by role: ' + role);
+    console.log('Retrieving components by role: ' + role);
     db.collection('clmodel', function(err, collection) {
       if(!err){
         collection.find({'role':role}).toArray(function(err, items) {
@@ -62,7 +62,7 @@ exports.findLastCM = function(req, res) {
     db.collection('clmodel', function(err, collection) {
         collection.find({'role':"CellManager"}).toArray(function(err, items) {
             var l = items.length;
-            console.log(l);
+            console.log("Cell Managers: " + l);
             res.send(items[l - 1]);
         });
     });
