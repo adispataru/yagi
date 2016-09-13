@@ -65,7 +65,7 @@
               return;
           }
           var cellId = data.id;
-          document.getElementById("spanStatus").className = "glyphicon glyphicon-ok";
+          document.getElementById("statusSpan").className = "glyphicon glyphicon-ok";
           if(sys)
             sys.stop();
           sys = arbor.ParticleSystem(1600, 510, 0.5) // create the system with sensible repulsion/stiffness/friction
