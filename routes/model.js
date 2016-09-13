@@ -61,10 +61,12 @@ exports.findAll = function(req, res) {
 exports.findLastCM = function(req, res) {
     db.collection('clmodel', function(err, collection) {
         collection.find({'role':"CellManager"}).toArray(function(err, items) {
+            if(err){
+                res.send(null);
+            }
             var l = items.length;
             console.log("Cell Managers: " + l);
             res.send(items[l - 1]);
         });
     });
-    res.send(null);
 };
